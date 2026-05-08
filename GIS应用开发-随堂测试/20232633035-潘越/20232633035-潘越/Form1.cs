@@ -20,6 +20,9 @@ namespace _20232633035_潘越
             InitializeComponent();
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+        }
 
         private void axTOCControl1_OnMouseDown(object sender, ITOCControlEvents_OnMouseDownEvent e)
         {
@@ -168,7 +171,7 @@ namespace _20232633035_潘越
             pFont.Name = "宋体";
             pFont.Size = 10;
             pTextSymbol.Font = pFont as stdole.IFontDisp;
-            IRgbColor pRgbColor = pRgbColor;
+            IRgbColor pRgbColor = new RgbColor();
 
             //声明标注引擎，并设置基本属性
             ILabelEngineLayerProperties plabelEngineLayerProperties = new LabelEngineLayerProperties() as ILabelEngineLayerProperties;
@@ -191,8 +194,6 @@ namespace _20232633035_潘越
             axMapControl1.Refresh();
 
 
-
-            //声明标注实例，并赋值
 
         }
     }
