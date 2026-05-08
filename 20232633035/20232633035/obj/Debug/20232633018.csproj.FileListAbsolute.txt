@@ -1,0 +1,17 @@
+D:\学习\大三下\gis应用开发\课堂练习\0313\20232633018\20232633018\bin\Debug\20232633018.exe.config
+D:\学习\大三下\gis应用开发\课堂练习\0313\20232633018\20232633018\bin\Debug\20232633018.exe
+D:\学习\大三下\gis应用开发\课堂练习\0313\20232633018\20232633018\bin\Debug\20232633018.pdb
+D:\学习\大三下\gis应用开发\课堂练习\0313\20232633018\20232633018\bin\Debug\ESRI.ArcGIS.AxControls.dll
+D:\学习\大三下\gis应用开发\课堂练习\0313\20232633018\20232633018\bin\Debug\ESRI.ArcGIS.Version.dll
+D:\学习\大三下\gis应用开发\课堂练习\0313\20232633018\20232633018\obj\Debug\20232633018.csproj.AssemblyReference.cache
+D:\学习\大三下\gis应用开发\课堂练习\0313\20232633018\20232633018\obj\Debug\_20232633018.Form1.resources
+D:\学习\大三下\gis应用开发\课堂练习\0313\20232633018\20232633018\obj\Debug\_20232633018.Properties.Resources.resources
+D:\学习\大三下\gis应用开发\课堂练习\0313\20232633018\20232633018\obj\Debug\20232633018.csproj.GenerateResource.cache
+D:\学习\大三下\gis应用开发\课堂练习\0313\20232633018\20232633018\obj\Debug\20232633018.csproj.CoreCompileInputs.cache
+D:\学习\大三下\gis应用开发\课堂练习\0313\20232633018\20232633018\obj\Debug\20232633018.csproj.CopyComplete
+D:\学习\大三下\gis应用开发\课堂练习\0313\20232633018\20232633018\obj\Debug\20232633018.exe
+D:\学习\大三下\gis应用开发\课堂练习\0313\20232633018\20232633018\obj\Debug\20232633018.pdb
+D:\学习\大三下\gis应用开发\课堂练习\0313\20232633018\20232633018\obj\Debug\20232633018.csproj.ResolveComReference.cache
+D:\学习\大三下\gis应用开发\课堂练习\0313\20232633018\20232633018\obj\Debug\_20232633018.Form2.resources
+D:\学习\大三下\gis应用开发\课堂练习\0313\20232633018\20232633018\obj\Debug\_20232633018.Form3.resources
+D:\学习\大三下\gis应用开发\课堂练习\0313\20232633018\20232633018\obj\Debug\_20232633018.Form4.resources
