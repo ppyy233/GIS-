@@ -71,6 +71,7 @@ namespace _20232633035_潘越
             this.axToolbarControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axToolbarControl1.OcxState")));
             this.axToolbarControl1.Size = new System.Drawing.Size(299, 28);
             this.axToolbarControl1.TabIndex = 2;
+            this.axToolbarControl1.OnMouseDown += new ESRI.ArcGIS.Controls.IToolbarControlEvents_Ax_OnMouseDownEventHandler(this.axToolbarControl1_OnMouseDown);
             // 
             // axLicenseControl1
             // 
@@ -88,13 +89,13 @@ namespace _20232633035_潘越
             this.圆形空间查询ToolStripMenuItem,
             this.标注要素ToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 92);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(149, 70);
             // 
             // 唯一值渲染ToolStripMenuItem
             // 
             this.唯一值渲染ToolStripMenuItem.Enabled = false;
             this.唯一值渲染ToolStripMenuItem.Name = "唯一值渲染ToolStripMenuItem";
-            this.唯一值渲染ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.唯一值渲染ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.唯一值渲染ToolStripMenuItem.Text = "唯一值渲染";
             this.唯一值渲染ToolStripMenuItem.Click += new System.EventHandler(this.唯一值渲染ToolStripMenuItem_Click);
             // 
@@ -102,14 +103,14 @@ namespace _20232633035_潘越
             // 
             this.圆形空间查询ToolStripMenuItem.Enabled = false;
             this.圆形空间查询ToolStripMenuItem.Name = "圆形空间查询ToolStripMenuItem";
-            this.圆形空间查询ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.圆形空间查询ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.圆形空间查询ToolStripMenuItem.Text = "圆形空间查询";
             this.圆形空间查询ToolStripMenuItem.Click += new System.EventHandler(this.圆形空间查询ToolStripMenuItem_Click);
             // 
             // 标注要素ToolStripMenuItem
             // 
             this.标注要素ToolStripMenuItem.Name = "标注要素ToolStripMenuItem";
-            this.标注要素ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.标注要素ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.标注要素ToolStripMenuItem.Text = "标注要素";
             this.标注要素ToolStripMenuItem.Click += new System.EventHandler(this.标注要素ToolStripMenuItem_Click);
             // 

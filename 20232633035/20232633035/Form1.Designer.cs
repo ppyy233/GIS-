@@ -45,6 +45,9 @@ namespace _20232633035
             this.分类符号ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.分级符号ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.比例符号ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.注释要素ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.地图生成ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.生成要素ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.axMapControl3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl3)).BeginInit();
@@ -60,6 +63,7 @@ namespace _20232633035
             this.axMapControl3.Size = new System.Drawing.Size(615, 505);
             this.axMapControl3.TabIndex = 0;
             this.axMapControl3.OnMouseDown += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseDownEventHandler(this.axMapControl3_OnMouseDown);
+            this.axMapControl3.OnDoubleClick += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnDoubleClickEventHandler(this.axMapControl3_OnDoubleClick);
             // 
             // axToolbarControl2
             // 
@@ -95,9 +99,11 @@ namespace _20232633035
             this.属性查询ToolStripMenuItem,
             this.空间查询ToolStripMenuItem,
             this.打开属性表ToolStripMenuItem,
-            this.符号化ToolStripMenuItem});
+            this.符号化ToolStripMenuItem,
+            this.注释要素ToolStripMenuItem,
+            this.地图生成ToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 136);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 180);
             // 
             // 移除图层ToolStripMenuItem
             // 
@@ -144,30 +150,51 @@ namespace _20232633035
             // 单一符号ToolStripMenuItem
             // 
             this.单一符号ToolStripMenuItem.Name = "单一符号ToolStripMenuItem";
-            this.单一符号ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.单一符号ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.单一符号ToolStripMenuItem.Text = "单一符号";
             this.单一符号ToolStripMenuItem.Click += new System.EventHandler(this.单一符号ToolStripMenuItem_Click);
             // 
             // 分类符号ToolStripMenuItem
             // 
             this.分类符号ToolStripMenuItem.Name = "分类符号ToolStripMenuItem";
-            this.分类符号ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.分类符号ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.分类符号ToolStripMenuItem.Text = "分类符号";
             this.分类符号ToolStripMenuItem.Click += new System.EventHandler(this.分类符号ToolStripMenuItem_Click);
             // 
             // 分级符号ToolStripMenuItem
             // 
             this.分级符号ToolStripMenuItem.Name = "分级符号ToolStripMenuItem";
-            this.分级符号ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.分级符号ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.分级符号ToolStripMenuItem.Text = "分级符号";
             this.分级符号ToolStripMenuItem.Click += new System.EventHandler(this.分级符号ToolStripMenuItem_Click);
             // 
             // 比例符号ToolStripMenuItem
             // 
             this.比例符号ToolStripMenuItem.Name = "比例符号ToolStripMenuItem";
-            this.比例符号ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.比例符号ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.比例符号ToolStripMenuItem.Text = "比例符号";
             this.比例符号ToolStripMenuItem.Click += new System.EventHandler(this.比例符号ToolStripMenuItem_Click);
+            // 
+            // 注释要素ToolStripMenuItem
+            // 
+            this.注释要素ToolStripMenuItem.Name = "注释要素ToolStripMenuItem";
+            this.注释要素ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.注释要素ToolStripMenuItem.Text = "注释要素";
+            // 
+            // 地图生成ToolStripMenuItem
+            // 
+            this.地图生成ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.生成要素ToolStripMenuItem});
+            this.地图生成ToolStripMenuItem.Name = "地图生成ToolStripMenuItem";
+            this.地图生成ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.地图生成ToolStripMenuItem.Text = "地图生成";
+            // 
+            // 生成要素ToolStripMenuItem
+            // 
+            this.生成要素ToolStripMenuItem.Name = "生成要素ToolStripMenuItem";
+            this.生成要素ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.生成要素ToolStripMenuItem.Text = "生成要素";
+            this.生成要素ToolStripMenuItem.Click += new System.EventHandler(this.生成要素ToolStripMenuItem_Click_1);
             // 
             // Form1
             // 
@@ -202,6 +229,9 @@ namespace _20232633035
         private System.Windows.Forms.ToolStripMenuItem 分类符号ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 分级符号ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 比例符号ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 注释要素ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 地图生成ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 生成要素ToolStripMenuItem;
     }
 }
 

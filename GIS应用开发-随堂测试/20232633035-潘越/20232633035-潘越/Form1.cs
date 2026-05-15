@@ -196,5 +196,10 @@ namespace _20232633035_潘越
 
 
         }
+
+        private void axToolbarControl1_OnMouseDown(object sender, IToolbarControlEvents_OnMouseDownEvent e)
+        {
+
+        }
     }
 }

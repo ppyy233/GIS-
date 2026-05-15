@@ -26,7 +26,8 @@ namespace _20232633035
         int omd_control = 0; //控制OnMouseDown
         ILayer pLayer = null;
         IFeatureLayer pFeatureLayer;
-
+        INewPolygonFeedback pNewPolygonFeedback = null;
+        INewLineFeedback pNewLineFeedback = null;
         private void 添加文本数据ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //axMapControl3.AddShapeFile(@"D:\gisdata", @"guangfo");
@@ -154,6 +155,11 @@ namespace _20232633035
             omd_control = 1;
         }
 
+        private void 生成要素ToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            omd_control = 2;
+        }
+
         private void axMapControl3_OnMouseDown(object sender, ESRI.ArcGIS.Controls.IMapControlEvents2_OnMouseDownEvent e)
         {
             Form3 frmSpatialRel = new Form3();
@@ -185,8 +191,73 @@ namespace _20232633035
                 axMapControl3.Refresh();//地图控件刷新
 
             }
-        }
+            if (omd_control == 2)//生成要素
+            {
+                IPoint pPoint = new ESRI.ArcGIS.Geometry.Point();
+                pPoint.PutCoords(e.mapX, e.mapY);
 
+                if (pFeatureLayer.FeatureClass.ShapeType == ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolygon)
+                {
+                    if (pNewPolygonFeedback == null)
+                    {
+                        pNewPolygonFeedback = new NewPolygonFeedback();
+                        // ↓ 新增：绑定显示和设置绘图样式 ↓
+                        IDisplayFeedback pDF = pNewPolygonFeedback as IDisplayFeedback;
+                        pDF.Display = axMapControl3.ActiveView.ScreenDisplay;
+
+                        ISimpleLineSymbol pOutline = new SimpleLineSymbol();
+                        pOutline.Style = esriSimpleLineStyle.esriSLSSolid;
+                        pOutline.Width = 2;
+                        IRgbColor pColor = new RgbColor();
+                        pColor.Red = 255; pColor.Green = 0; pColor.Blue = 0;
+                        pOutline.Color = pColor;
+
+                        ISimpleFillSymbol pFill = new SimpleFillSymbol();
+                        pFill.Style = esriSimpleFillStyle.esriSFSNull;  // 透明填充只看边框
+                        pFill.Outline = pOutline;
+                        pDF.Symbol = pFill as ISymbol;
+                        // ↑ 新增结束 ↑
+
+                        pNewPolygonFeedback.Start(pPoint);
+                    }
+                    else
+                        pNewPolygonFeedback.AddPoint(pPoint);
+                }
+                else if (pFeatureLayer.FeatureClass.ShapeType == ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolyline)
+                {
+                    if (pNewLineFeedback == null)
+                    {
+                        pNewLineFeedback = new NewLineFeedback();
+                        // ↓ 新增 ↓
+                        IDisplayFeedback pDF = pNewLineFeedback as IDisplayFeedback;
+                        pDF.Display = axMapControl3.ActiveView.ScreenDisplay;
+
+                        ISimpleLineSymbol pLineSym = new SimpleLineSymbol();
+                        pLineSym.Style = esriSimpleLineStyle.esriSLSSolid;
+                        pLineSym.Width = 2;
+                        IRgbColor pColor = new RgbColor();
+                        pColor.Red = 255; pColor.Green = 0; pColor.Blue = 0;
+                        pLineSym.Color = pColor;
+                        pDF.Symbol = pLineSym as ISymbol;
+                        // ↑ 新增结束 ↑
+
+                        pNewLineFeedback.Start(pPoint);
+                    }
+                    else
+                        pNewLineFeedback.AddPoint(pPoint);
+                }
+            }
+        }
+        private void axMapControl3_OnMouseMove(object sender, IMapControlEvents2_OnMouseMoveEvent e)
+        {
+            IPoint pPoint = new ESRI.ArcGIS.Geometry.Point();
+            pPoint.PutCoords(e.mapX, e.mapY);
+            if (omd_control == 2)
+            {
+                if (pNewPolygonFeedback != null) pNewPolygonFeedback.MoveTo(pPoint);
+                if (pNewLineFeedback != null) pNewLineFeedback.MoveTo(pPoint);
+            }
+        }
         private void 打开属性表ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataTable pTable = new DataTable();
@@ -570,5 +641,43 @@ namespace _20232633035
 
 
         }
+
+        private void axMapControl3_OnDoubleClick(object sender, IMapControlEvents2_OnDoubleClickEvent e)
+        {
+            if (omd_control == 2)
+            {
+                IGeometry pGeometry = null;
+                switch (pFeatureLayer.FeatureClass.ShapeType)
+                {
+                    case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolygon:
+                        if (pNewPolygonFeedback != null) pGeometry = pNewPolygonFeedback.Stop();
+                        pNewPolygonFeedback = null;
+                        break;
+                    case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolyline:
+                        if (pNewLineFeedback != null) pGeometry = pNewLineFeedback.Stop();
+                        pNewLineFeedback = null;
+                        break;
+                    case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPoint:
+                        IPoint pPoint = new ESRI.ArcGIS.Geometry.Point();
+                        pPoint.PutCoords(e.mapX, e.mapY);
+                        pGeometry = pPoint;
+                        break;
+                    default: break;
+                }
+
+                ISpatialFilter pSpatialFilter = new SpatialFilter();
+                pSpatialFilter.Geometry = pGeometry;
+                pSpatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects;
+                IFeatureCursor pFeatureCursor = pFeatureLayer.Search(pSpatialFilter, true);
+                if (pFeatureCursor.NextFeature() != null) return;
+
+                IFeature pFeature = pFeatureLayer.FeatureClass.CreateFeature();
+                pFeature.Shape = pGeometry;
+                pFeature.Store();
+                axMapControl3.Refresh();
+            }
+
+        }
+
     }
 }
