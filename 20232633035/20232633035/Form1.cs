@@ -28,6 +28,16 @@ namespace _20232633035
         IFeatureLayer pFeatureLayer;
         INewPolygonFeedback pNewPolygonFeedback = null;
         INewLineFeedback pNewLineFeedback = null;
+
+        IFeature pMoveFeature;
+        IFeature pMovePointFeature;
+        IMovePolygonFeedback pMovePolygonFeedback = null;
+        IPolygonMovePointFeedback pPolygonMovePointFeekback = null;
+        IFeatureLayer pDistrictLayer;
+        IFeatureLayer pStationLayer;
+        IPoint pStartStation;
+        IPoint pEndStation;
+  
         private void 添加文本数据ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //axMapControl3.AddShapeFile(@"D:\gisdata", @"guangfo");
@@ -159,6 +169,14 @@ namespace _20232633035
         {
             omd_control = 2;
         }
+        private void 移动要素ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            omd_control = 3;
+        }
+        private void 移动要素节点ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            omd_control = 4;
+        }
 
         private void axMapControl3_OnMouseDown(object sender, ESRI.ArcGIS.Controls.IMapControlEvents2_OnMouseDownEvent e)
         {
@@ -247,15 +265,78 @@ namespace _20232633035
                         pNewLineFeedback.AddPoint(pPoint);
                 }
             }
+
+            if (omd_control ==3)//移动要素
+            {
+                IPoint pPoint = new ESRI.ArcGIS.Geometry.Point();
+                pPoint.PutCoords(e.mapX, e.mapY);
+                ISpatialFilter pSpatialFilter = new SpatialFilter();
+                pSpatialFilter.Geometry = pPoint;
+                pSpatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelWithin;
+                IFeatureCursor pFeatureCursor = pFeatureLayer.Search(pSpatialFilter, true);
+                pMoveFeature = pFeatureCursor.NextFeature();
+                if (pMoveFeature == null) return;
+                if (pMovePolygonFeedback == null)
+                {
+                    pMovePolygonFeedback = new MovePolygonFeedback();
+                    pMovePolygonFeedback.Display = axMapControl3.ActiveView.ScreenDisplay;
+                    IPolygon pPolygon = pMoveFeature.Shape as IPolygon;
+                    pMovePolygonFeedback.Start(pPolygon, pPoint);
+                }
+            }
+            if(omd_control ==4)//移动要素节点
+            {
+                IPoint pPoint = new ESRI.ArcGIS.Geometry.Point();
+                pPoint.PutCoords(e.mapX, e.mapY);
+                ITopologicalOperator pTopologicalOperator = pPoint as ITopologicalOperator;
+                IPolygon pPolygon = pTopologicalOperator.Buffer(10) as IPolygon;
+                ISpatialFilter pSpatialFilter = new SpatialFilter();
+                pSpatialFilter.Geometry = pPoint;
+                pSpatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelWithin;
+                IFeatureCursor pFeatureCursor = pFeatureLayer.Search(pSpatialFilter, true);
+                pMoveFeature = pFeatureCursor.NextFeature();
+                if (pMoveFeature == null) return;
+                //这个是老师的
+                //IHitTest pHitTest = pMovePointFeature.Shape as IHitTest;
+                pMovePointFeature = pMoveFeature;   // 先把拾取到的要素赋给它
+                //这个是修复的
+                IHitTest pHitTest = pMovePointFeature.Shape as IHitTest;
+                IPoint pHitPoint = new ESRI.ArcGIS.Geometry.Point();
+
+                double pHistDistance = 0;
+                int pPartlndex = 0 ;
+                int pSegmentIndex = 0;
+                bool pHitResult= pHitTest.HitTest(pPoint, 10, esriGeometryHitPartType.esriGeometryPartVertex, pHitPoint, ref pHistDistance, ref pPartlndex, ref pSegmentIndex, true);
+                if (pHitResult == false) return;
+
+                pPolygonMovePointFeekback = new PolygonMovePointFeedback();
+                pPolygonMovePointFeekback.Display = axMapControl3.ActiveView.ScreenDisplay;
+                pPolygonMovePointFeekback.Start(pMovePointFeature.Shape as IPolygon, pSegmentIndex, pPoint);
+
+             
+            }
         }
         private void axMapControl3_OnMouseMove(object sender, IMapControlEvents2_OnMouseMoveEvent e)
         {
-            IPoint pPoint = new ESRI.ArcGIS.Geometry.Point();
-            pPoint.PutCoords(e.mapX, e.mapY);
+            
             if (omd_control == 2)
             {
+                IPoint pPoint = new ESRI.ArcGIS.Geometry.Point();
+                pPoint.PutCoords(e.mapX, e.mapY);
                 if (pNewPolygonFeedback != null) pNewPolygonFeedback.MoveTo(pPoint);
                 if (pNewLineFeedback != null) pNewLineFeedback.MoveTo(pPoint);
+            }
+            if (omd_control == 3)
+            {
+                IPoint pPoint = new ESRI.ArcGIS.Geometry.Point();
+                pPoint.PutCoords(e.mapX, e.mapY);
+                if (pMovePolygonFeedback != null) pMovePolygonFeedback.MoveTo(pPoint);
+            }
+            if (omd_control == 4)
+            {
+                IPoint pPoint = new ESRI.ArcGIS.Geometry.Point();
+                pPoint.PutCoords(e.mapX, e.mapY);
+                if (pPolygonMovePointFeekback != null) pPolygonMovePointFeekback.MoveTo(pPoint);
             }
         }
         private void 打开属性表ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -635,13 +716,14 @@ namespace _20232633035
                 pProportionalSymbolRenderer.BackgroundSymbol = pSimpleFillSymbol;
             }
 
+           
             //图层渲染
             pGeoFeatureLayer.Renderer = pProportionalSymbolRenderer as IFeatureRenderer;
             axMapControl3.Refresh();
 
 
         }
-
+        
         private void axMapControl3_OnDoubleClick(object sender, IMapControlEvents2_OnDoubleClickEvent e)
         {
             if (omd_control == 2)
@@ -679,5 +761,66 @@ namespace _20232633035
 
         }
 
+        private void axMapControl3_OnKeyUp(object sender, IMapControlEvents2_OnKeyUpEvent e)
+        {
+            if (omd_control == 3)
+            {
+                if (pMovePolygonFeedback != null)
+                {
+                    IGeometry pGeometry = pMovePolygonFeedback.Stop();
+                    pMovePolygonFeedback = null;
+                    pMoveFeature.Shape = pGeometry;
+                    pMoveFeature.Store();
+                    axMapControl3.Refresh();
+                }
+            }
+        }
+
+       
+        private void axMapControl3_OnMouseUp(object sender, IMapControlEvents2_OnMouseUpEvent e)
+        {
+            if (omd_control == 3)
+            {
+                if (pMovePolygonFeedback != null)
+                {
+                    IGeometry pGeometry = pMovePolygonFeedback.Stop();
+                    pMovePolygonFeedback = null;
+
+                    ISpatialFilter pSpatialFilter = new SpatialFilter();
+                    pSpatialFilter.Geometry = pGeometry;
+                    pSpatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects;
+                    IFeatureCursor pFeatureCursor = pFeatureLayer.Search(pSpatialFilter, true);
+                    IFeature pFeature = pFeatureCursor.NextFeature();
+                    if ((pFeature == null) || (pFeature.OID == pMoveFeature.OID))
+                    {
+                        pMoveFeature.Shape = pGeometry;
+                        pMoveFeature.Store();
+                        axMapControl3.Refresh();
+                    }
+                }
+            }
+            if(omd_control == 4)
+            {
+                if (pMovePolygonFeedback != null)
+                {
+                    IGeometry pGeometry = pMovePolygonFeedback.Stop();
+                    pMovePolygonFeedback = null;
+
+                    ISpatialFilter pSpatialFilter = new SpatialFilter();
+                    pSpatialFilter.Geometry = pGeometry;
+                    pSpatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects;
+                    IFeatureCursor pFeatureCursor = pFeatureLayer.Search(pSpatialFilter, true);
+                    IFeature pFeature = pFeatureCursor.NextFeature();
+                    if ((pFeature == null) || (pFeature.OID == pMoveFeature.OID))
+                    {
+                        pMoveFeature.Shape = pGeometry;
+                        pMoveFeature.Store();
+                        axMapControl3.Refresh();
+                    }
+                }
+            }
+        }
+
+      
     }
 }

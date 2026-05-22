@@ -46,8 +46,10 @@ namespace _20232633035
             this.分级符号ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.比例符号ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.注释要素ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.地图生成ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.地图编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.生成要素ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.移动要素ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.移动要素节点ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.axMapControl3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axTOCControl3)).BeginInit();
@@ -63,7 +65,9 @@ namespace _20232633035
             this.axMapControl3.Size = new System.Drawing.Size(615, 505);
             this.axMapControl3.TabIndex = 0;
             this.axMapControl3.OnMouseDown += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseDownEventHandler(this.axMapControl3_OnMouseDown);
+            this.axMapControl3.OnMouseUp += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnMouseUpEventHandler(this.axMapControl3_OnMouseUp);
             this.axMapControl3.OnDoubleClick += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnDoubleClickEventHandler(this.axMapControl3_OnDoubleClick);
+            this.axMapControl3.OnKeyUp += new ESRI.ArcGIS.Controls.IMapControlEvents2_Ax_OnKeyUpEventHandler(this.axMapControl3_OnKeyUp);
             // 
             // axToolbarControl2
             // 
@@ -101,14 +105,14 @@ namespace _20232633035
             this.打开属性表ToolStripMenuItem,
             this.符号化ToolStripMenuItem,
             this.注释要素ToolStripMenuItem,
-            this.地图生成ToolStripMenuItem});
+            this.地图编辑ToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(181, 180);
             // 
             // 移除图层ToolStripMenuItem
             // 
             this.移除图层ToolStripMenuItem.Name = "移除图层ToolStripMenuItem";
-            this.移除图层ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.移除图层ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.移除图层ToolStripMenuItem.Text = "移除图层";
             this.移除图层ToolStripMenuItem.Click += new System.EventHandler(this.移除图层ToolStripMenuItem_Click);
             // 
@@ -116,7 +120,7 @@ namespace _20232633035
             // 
             this.属性查询ToolStripMenuItem.Enabled = false;
             this.属性查询ToolStripMenuItem.Name = "属性查询ToolStripMenuItem";
-            this.属性查询ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.属性查询ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.属性查询ToolStripMenuItem.Text = "属性查询";
             this.属性查询ToolStripMenuItem.Click += new System.EventHandler(this.属性查询ToolStripMenuItem_Click);
             // 
@@ -124,7 +128,7 @@ namespace _20232633035
             // 
             this.空间查询ToolStripMenuItem.Enabled = false;
             this.空间查询ToolStripMenuItem.Name = "空间查询ToolStripMenuItem";
-            this.空间查询ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.空间查询ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.空间查询ToolStripMenuItem.Text = "空间查询";
             this.空间查询ToolStripMenuItem.Click += new System.EventHandler(this.空间查询ToolStripMenuItem_Click);
             // 
@@ -132,7 +136,7 @@ namespace _20232633035
             // 
             this.打开属性表ToolStripMenuItem.Enabled = false;
             this.打开属性表ToolStripMenuItem.Name = "打开属性表ToolStripMenuItem";
-            this.打开属性表ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.打开属性表ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.打开属性表ToolStripMenuItem.Text = "打开属性表";
             this.打开属性表ToolStripMenuItem.Click += new System.EventHandler(this.打开属性表ToolStripMenuItem_Click);
             // 
@@ -144,7 +148,7 @@ namespace _20232633035
             this.分级符号ToolStripMenuItem,
             this.比例符号ToolStripMenuItem});
             this.符号化ToolStripMenuItem.Name = "符号化ToolStripMenuItem";
-            this.符号化ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.符号化ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.符号化ToolStripMenuItem.Text = "符号化";
             // 
             // 单一符号ToolStripMenuItem
@@ -178,16 +182,18 @@ namespace _20232633035
             // 注释要素ToolStripMenuItem
             // 
             this.注释要素ToolStripMenuItem.Name = "注释要素ToolStripMenuItem";
-            this.注释要素ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.注释要素ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.注释要素ToolStripMenuItem.Text = "注释要素";
             // 
-            // 地图生成ToolStripMenuItem
+            // 地图编辑ToolStripMenuItem
             // 
-            this.地图生成ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.生成要素ToolStripMenuItem});
-            this.地图生成ToolStripMenuItem.Name = "地图生成ToolStripMenuItem";
-            this.地图生成ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.地图生成ToolStripMenuItem.Text = "地图生成";
+            this.地图编辑ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.生成要素ToolStripMenuItem,
+            this.移动要素ToolStripMenuItem,
+            this.移动要素节点ToolStripMenuItem});
+            this.地图编辑ToolStripMenuItem.Name = "地图编辑ToolStripMenuItem";
+            this.地图编辑ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.地图编辑ToolStripMenuItem.Text = "地图编辑";
             // 
             // 生成要素ToolStripMenuItem
             // 
@@ -195,6 +201,20 @@ namespace _20232633035
             this.生成要素ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.生成要素ToolStripMenuItem.Text = "生成要素";
             this.生成要素ToolStripMenuItem.Click += new System.EventHandler(this.生成要素ToolStripMenuItem_Click_1);
+            // 
+            // 移动要素ToolStripMenuItem
+            // 
+            this.移动要素ToolStripMenuItem.Name = "移动要素ToolStripMenuItem";
+            this.移动要素ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.移动要素ToolStripMenuItem.Text = "移动要素";
+            this.移动要素ToolStripMenuItem.Click += new System.EventHandler(this.移动要素ToolStripMenuItem_Click);
+            // 
+            // 移动要素节点ToolStripMenuItem
+            // 
+            this.移动要素节点ToolStripMenuItem.Name = "移动要素节点ToolStripMenuItem";
+            this.移动要素节点ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.移动要素节点ToolStripMenuItem.Text = "移动要素节点";
+            this.移动要素节点ToolStripMenuItem.Click += new System.EventHandler(this.移动要素节点ToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -230,8 +250,10 @@ namespace _20232633035
         private System.Windows.Forms.ToolStripMenuItem 分级符号ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 比例符号ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 注释要素ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 地图生成ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 地图编辑ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 生成要素ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 移动要素节点ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 移动要素ToolStripMenuItem;
     }
 }
 
